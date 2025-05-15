@@ -37,23 +37,23 @@ export function ChatPanel({
   const exampleMessages = [
     {
       heading: 'What are the',
-      subheading: 'trending memecoins today?',
-      message: `What are the trending memecoins today?`
+      subheading: 'tax implications of starting a small business?',
+      message: `What are the tax implications of starting a small business?`
     },
     {
-      heading: 'What is the price of',
-      subheading: '$DOGE right now?',
-      message: 'What is the price of $DOGE right now?'
+      heading: 'Can you explain',
+      subheading: 'Section 80C deductions?',
+      message: 'Can you explain Section 80C deductions in detail?'
     },
     {
-      heading: 'I would like to buy',
-      subheading: '42 $DOGE',
-      message: `I would like to buy 42 $DOGE`
+      heading: 'What documents',
+      subheading: 'do I need for tax filing?',
+      message: `What documents do I need for tax filing?`
     },
     {
-      heading: 'What are some',
-      subheading: `recent events about $DOGE?`,
-      message: `What are some recent events about $DOGE?`
+      heading: 'How are',
+      subheading: `capital gains from property sales taxed?`,
+      message: `How are capital gains from property sales taxed?`
     }
   ]
 
@@ -129,7 +129,7 @@ export function ChatPanel({
           </div>
         ) : null}
 
-        <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
+        <div className="space-y-4 border-t bg-background mb-4 px-4 py-2 shadow-lg sm:rounded-xl sm:border md:py-4">
           <PromptForm input={input} setInput={setInput} />
           <FooterText className="hidden sm:block" />
         </div>
