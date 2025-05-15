@@ -12,7 +12,7 @@ coverage
 .next/
 out/
 build
-kik
+
 
 # misc
 .DS_Store
