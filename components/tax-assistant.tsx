@@ -44,7 +44,7 @@ export function TaxAssistant({ query, onResult }: TaxAssistantProps) {
 
         if (!res.ok) {
           const errorData = await res.json()
-          throw new Error(errorData.error || 'Failed to process legal query')
+          throw new Error(errorData.error || 'Failed to process tax query')
         }
 
         const data = await res.json()
@@ -61,10 +61,10 @@ export function TaxAssistant({ query, onResult }: TaxAssistantProps) {
         
         onResult(formattedResult)
       } catch (err) {
-        console.error('Error fetching legal information:', err)
+        console.error('Error fetching tax information:', err)
         setError(err instanceof Error ? err.message : 'An unknown error occurred')
         onResult(
-          <BotMessage content={`I encountered an error processing your legal query: ${err instanceof Error ? err.message : 'Unknown error'}`} />
+          <BotMessage content={`I encountered an error processing your tax query: ${err instanceof Error ? err.message : 'Unknown error'}`} />
         )
       } finally {
         setIsLoading(false)
@@ -78,7 +78,7 @@ export function TaxAssistant({ query, onResult }: TaxAssistantProps) {
     return (
       <div className="flex items-center justify-center p-6">
         <IconSpinner className="size-6 animate-spin" />
-        <span className="ml-2">Processing legal query...</span>
+        <span className="ml-2">Processing tax query...</span>
       </div>
     )
   }

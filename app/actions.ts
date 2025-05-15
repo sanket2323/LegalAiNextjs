@@ -19,6 +19,7 @@ export async function getMissingKeys() {
     .filter(key => key !== '')
 }
 
+
 // Export all the existing functions
 export async function getChats(userId?: string | null) {
   const session = await auth()

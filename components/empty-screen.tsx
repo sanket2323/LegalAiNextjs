@@ -5,15 +5,15 @@ export function EmptyScreen() {
     <div className="mx-auto max-w-2xl px-4">
       <div className="flex flex-col gap-2 rounded-lg border bg-background p-8">
         <h1 className="text-lg font-semibold">
-          Welcome to the Legal AI Assistant!
+          Welcome to the Tax AI Assistant!
         </h1>
         <p className="leading-normal text-muted-foreground">
-          This is an intelligent legal assistant built to help you with tax and legal questions.
-          Simply type your legal question and press Enter to get assistance.
+          This is an intelligent tax assistant built to help you with tax and legal questions.
+          Simply type your tax question and press Enter to get assistance.
         </p>
         <p className="leading-normal text-muted-foreground">
           This application is built with{' '}
-          <ExternalLink href="https://nextjs.org">Next.js</ExternalLink> and connects to a specialized legal API
+          <ExternalLink href="https://nextjs.org">Next.js</ExternalLink> and connects to a specialized tax API
           to provide you with accurate information.
         </p>
         <div className="mt-4">

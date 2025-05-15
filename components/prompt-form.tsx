@@ -37,12 +37,12 @@ export function PromptForm({
     }
   }, [])
 
-  // State to hold the current response from the legal API
-  const [legalResponse, setLegalResponse] = React.useState<React.ReactNode | null>(null)
+  // State to hold the current response from the tax API
+  const [taxResponse, setTaxResponse] = React.useState<React.ReactNode | null>(null)
 
-  // Function to handle legal API responses
-  const handleLegalResponse = (response: React.ReactNode) => {
-    setLegalResponse(response)
+  // Function to handle tax API responses
+  const handleTaxResponse = (response: React.ReactNode) => {
+    setTaxResponse(response)
     
     // Add the response to the messages
     setMessages(currentMessages => [
@@ -78,12 +78,12 @@ export function PromptForm({
           }
         ])
 
-        // If it's a legal question, use the TaxAssistant component
+        // Use the TaxAssistant component
         // This will make an API call to your backend
         const taxAssistantNode = (
           <TaxAssistant 
             query={value} 
-            onResult={handleLegalResponse} 
+            onResult={handleTaxResponse} 
           />
         )
         
@@ -118,7 +118,7 @@ export function PromptForm({
           ref={inputRef}
           tabIndex={0}
           onKeyDown={onKeyDown}
-          placeholder="Ask a legal question..."
+          placeholder="Ask a tax question..."
           className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm"
           autoFocus
           spellCheck={false}
@@ -134,10 +134,10 @@ export function PromptForm({
             <TooltipTrigger asChild>
               <Button type="submit" size="icon" disabled={input === ''}>
                 <IconArrowElbow />
-                <span className="sr-only">Submit legal question</span>
+                <span className="sr-only">Submit tax question</span>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Submit legal question</TooltipContent>
+            <TooltipContent>Submit tax question</TooltipContent>
           </Tooltip>
         </div>
       </div>

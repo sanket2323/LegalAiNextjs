@@ -1,18 +1,19 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server';
 
-// Configure environment variables
-const TAX_API_URL = process.env.TAX_API_URL 
+// Get the environment variable for the Tax API URL
+const TAX_API_URL = process.env.TAX_API_URL || 'http://0.0.0.0:8001';
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json()
-    const { query } = body
+    // Get the query from the request body
+    const body = await req.json();
+    const { query } = body;
 
     if (!query) {
       return NextResponse.json(
         { error: 'Query is required' },
         { status: 400 }
-      )
+      );
     }
 
     // Call the Tax/Legal API
@@ -22,27 +23,24 @@ export async function POST(req: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ query }),
-    })
+    });
 
     if (!response.ok) {
-      const errorData = await response.json()
+      const errorData = await response.json();
       return NextResponse.json(
-        { error: errorData.detail || 'Error processing legal query' },
+        { error: errorData.detail || 'Error processing tax query' },
         { status: response.status }
-      )
+      );
     }
 
-    const data = await response.json()
+    const data = await response.json();
     
-    // If your backend doesn't return data in the expected format,
-    // you can transform it here before returning
-    
-    return NextResponse.json(data)
+    return NextResponse.json(data);
   } catch (error) {
-    console.error('Error processing legal query:', error)
+    console.error('Error processing tax query:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
-    )
+    );
   }
 }
