@@ -17,6 +17,7 @@ import {
 import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/navigation'
+import { TaxAssistant } from '@/components/tax-assistant'
 
 export function PromptForm({
   input,
@@ -28,8 +29,7 @@ export function PromptForm({
   const router = useRouter()
   const { formRef, onKeyDown } = useEnterSubmit()
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
-  const { submitUserMessage } = useActions()
-  const [_, setMessages] = useUIState<typeof AI>()
+  const [, setMessages] = useUIState<typeof AI>()
 
   React.useEffect(() => {
     if (inputRef.current) {
@@ -37,15 +37,32 @@ export function PromptForm({
     }
   }, [])
 
+  // State to hold the current response from the legal API
+  const [legalResponse, setLegalResponse] = React.useState<React.ReactNode | null>(null)
+
+  // Function to handle legal API responses
+  const handleLegalResponse = (response: React.ReactNode) => {
+    setLegalResponse(response)
+    
+    // Add the response to the messages
+    setMessages(currentMessages => [
+      ...currentMessages,
+      {
+        id: nanoid(),
+        display: response
+      }
+    ])
+  }
+
   return (
     <form
       ref={formRef}
-      onSubmit={async (e: any) => {
+      onSubmit={async (e: React.FormEvent) => {
         e.preventDefault()
 
         // Blur focus on mobile
         if (window.innerWidth < 600) {
-          e.target['message']?.blur()
+          e.currentTarget.querySelector('textarea')?.blur()
         }
 
         const value = input.trim()
@@ -61,9 +78,23 @@ export function PromptForm({
           }
         ])
 
-        // Submit and get response message
-        const responseMessage = await submitUserMessage(value)
-        setMessages(currentMessages => [...currentMessages, responseMessage])
+        // If it's a legal question, use the TaxAssistant component
+        // This will make an API call to your backend
+        const taxAssistantNode = (
+          <TaxAssistant 
+            query={value} 
+            onResult={handleLegalResponse} 
+          />
+        )
+        
+        // Add a temporary loading state while waiting for the response
+        setMessages(currentMessages => [
+          ...currentMessages,
+          {
+            id: nanoid(),
+            display: taxAssistantNode
+          }
+        ])
       }}
     >
       <div className="relative flex max-h-60 w-full grow flex-col overflow-hidden bg-background px-8 sm:rounded-md sm:border sm:px-12">
@@ -87,7 +118,7 @@ export function PromptForm({
           ref={inputRef}
           tabIndex={0}
           onKeyDown={onKeyDown}
-          placeholder="Send a message."
+          placeholder="Ask a legal question..."
           className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm"
           autoFocus
           spellCheck={false}
@@ -103,10 +134,10 @@ export function PromptForm({
             <TooltipTrigger asChild>
               <Button type="submit" size="icon" disabled={input === ''}>
                 <IconArrowElbow />
-                <span className="sr-only">Send message</span>
+                <span className="sr-only">Submit legal question</span>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Send message</TooltipContent>
+            <TooltipContent>Submit legal question</TooltipContent>
           </Tooltip>
         </div>
       </div>

@@ -48,9 +48,15 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
   })
 
   useEffect(() => {
-    missingKeys.map(key => {
-      toast.error(`Missing ${key} environment variable!`)
-    })
+    // Only check for API keys if they're needed
+    if (missingKeys.length > 0) {
+      missingKeys.forEach(key => {
+        // Only show tax API specific warnings
+        if (key === 'TAX_API_URL' || key === 'TAX_API_KEY') {
+          toast.error(`Missing ${key} environment variable!`)
+        }
+      })
+    }
   }, [missingKeys])
 
   const { messagesRef, scrollRef, visibilityRef, isAtBottom, scrollToBottom } =

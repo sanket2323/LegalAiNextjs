@@ -1,5 +1,6 @@
 'use server'
 
+// Previous imports remain the same
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { kv } from '@vercel/kv'
@@ -7,6 +8,18 @@ import { kv } from '@vercel/kv'
 import { auth } from '@/auth'
 import { type Chat } from '@/lib/types'
 
+// Keep all the existing functions unchanged...
+
+// Only modify the getMissingKeys function
+export async function getMissingKeys() {
+  // Change this to check for your legal API keys instead of OpenAI
+  const keysRequired = ['TAX_API_URL']
+  return keysRequired
+    .map(key => (process.env[key] ? '' : key))
+    .filter(key => key !== '')
+}
+
+// Export all the existing functions
 export async function getChats(userId?: string | null) {
   const session = await auth()
 
@@ -162,11 +175,4 @@ export async function saveChat(chat: Chat) {
 
 export async function refreshHistory(path: string) {
   redirect(path)
-}
-
-export async function getMissingKeys() {
-  const keysRequired = ['OPENAI_API_KEY']
-  return keysRequired
-    .map(key => (process.env[key] ? '' : key))
-    .filter(key => key !== '')
 }
