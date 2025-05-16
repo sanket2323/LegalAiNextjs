@@ -14,10 +14,23 @@ import { UserMenu } from '@/components/user-menu'
 import { SidebarMobile } from './sidebar-mobile'
 import { SidebarToggle } from './sidebar-toggle'
 import { ChatHistory } from './chat-history'
+
+import { signInWithGoogle } from '@/lib/firebase/auth'
+import router from 'next/router'
 import { Session } from '@/lib/types'
 
 async function UserOrLogin() {
   const session = (await auth()) as Session
+  // const session = (await )
+  const handleLogin = async () => {
+    try {
+      await signInWithGoogle();
+      
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  };
+
   return (
     <>
       {session?.user ? (
@@ -38,8 +51,8 @@ async function UserOrLogin() {
         {session?.user ? (
           <UserMenu user={session.user} />
         ) : (
-          <Button variant="link" asChild className="-ml-2">
-            <Link href="/login">Login</Link>
+          <Button variant="link" onClick={handleLogin} className="-ml-2">
+            Login
           </Button>
         )}
       </div>
